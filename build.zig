@@ -40,10 +40,7 @@ pub fn build(b: *std.Build) !void {
     });
     xstd_lib.linkLibrary(xstd.artifact("xstd"));
 
-    xstd_lib.installLibraryHeaders(xstd.artifact("xstd"));
-    const xstd_install_step = b.addInstallArtifact(xstd_lib, .{});
-    b.getInstallStep().dependOn(&xstd_install_step.step);
-
+    b.installArtifact(xstd_lib);
     b.installArtifact(lib);
 
     // Creates a step for unit testing. This only builds the test executable
