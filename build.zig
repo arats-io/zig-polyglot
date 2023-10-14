@@ -15,10 +15,23 @@ pub fn build(b: *std.Build) !void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
 
+    const xstd = b.dependency("xstd", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
     // create a module to be used internally.
     _ = b.addModule("polyglot", .{
         .source_file = .{ .path = "src/lib.zig" },
     });
+
+    const xstd_lib = b.addStaticLibrary(.{
+        .name = "xstd",
+        .target = target,
+        .optimize = optimize,
+    });
+
+    xstd_lib.linkLibrary(xstd.artifact("xstd"));
 
     const lib = b.addStaticLibrary(.{
         .name = "polyglot",
@@ -26,14 +39,7 @@ pub fn build(b: *std.Build) !void {
         .target = target,
         .optimize = optimize,
     });
-
-    const xstd = b.dependency("xstd", .{
-        .target = target,
-        .optimize = optimize,
-    });
-
     lib.addModule("xstd", xstd.module("xstd"));
-    lib.linkLibrary(xstd.artifact("xstd"));
 
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when
