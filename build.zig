@@ -39,6 +39,7 @@ pub fn build(b: *std.Build) !void {
         .target = target,
         .optimize = optimize,
     });
+    lib.linkLibrary(xstd.artifact("xstd"));
     lib.addModule("xstd", xstd.module("xstd"));
 
     // This declares intent for the library to be installed into the standard
