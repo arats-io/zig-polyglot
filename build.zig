@@ -27,7 +27,6 @@ pub fn build(b: *std.Build) !void {
     });
 
     xstd_lib.linkLibrary(xstd.artifact("xstd"));
-    b.installArtifact(xstd_lib);
 
     // create a module to be used internally.
     _ = b.addModule("polyglot", .{
@@ -46,6 +45,10 @@ pub fn build(b: *std.Build) !void {
     // location when the user invokes the "install" step (the default step when
     // running `zig build`).
     b.installArtifact(lib);
+
+    xstd_lib.installLibraryHeaders(xstd.artifact("xstd"));
+    const xstd_install_step = b.addInstallArtifact(xstd_lib, .{});
+    b.getInstallStep().dependOn(&xstd_install_step.step);
 
     // Creates a step for unit testing. This only builds the test executable
     // but does not run it.
