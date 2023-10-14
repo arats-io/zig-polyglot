@@ -20,14 +20,6 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
 
-    const xstd_lib = b.addStaticLibrary(.{
-        .name = "xstd",
-        .target = target,
-        .optimize = optimize,
-    });
-
-    xstd_lib.linkLibrary(xstd.artifact("xstd"));
-
     // create a module to be used internally.
     _ = b.addModule("polyglot", .{
         .source_file = .{ .path = "src/lib.zig" },
@@ -44,7 +36,15 @@ pub fn build(b: *std.Build) !void {
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when
     // running `zig build`).
-    b.installArtifact(lib);
+    //b.installArtifact(lib);
+
+    const xstd_lib = b.addStaticLibrary(.{
+        .name = "xstd",
+        .target = target,
+        .optimize = optimize,
+    });
+
+    xstd_lib.linkLibrary(xstd.artifact("xstd"));
 
     xstd_lib.installLibraryHeaders(xstd.artifact("xstd"));
     const xstd_install_step = b.addInstallArtifact(xstd_lib, .{});
