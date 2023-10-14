@@ -20,11 +20,6 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
 
-    // create a module to be used internally.
-    _ = b.addModule("polyglot", .{
-        .source_file = .{ .path = "src/lib.zig" },
-    });
-
     const xstd_lib = b.addStaticLibrary(.{
         .name = "xstd",
         .target = target,
@@ -32,7 +27,12 @@ pub fn build(b: *std.Build) !void {
     });
 
     xstd_lib.linkLibrary(xstd.artifact("xstd"));
+    b.installArtifact(xstd_lib);
 
+    // create a module to be used internally.
+    _ = b.addModule("polyglot", .{
+        .source_file = .{ .path = "src/lib.zig" },
+    });
     const lib = b.addStaticLibrary(.{
         .name = "polyglot",
         .root_source_file = .{ .path = "src/lib.zig" },
