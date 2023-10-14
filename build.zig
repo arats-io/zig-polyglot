@@ -33,22 +33,18 @@ pub fn build(b: *std.Build) !void {
     lib.linkLibrary(xstd.artifact("xstd"));
     lib.addModule("xstd", xstd.module("xstd"));
 
-    // This declares intent for the library to be installed into the standard
-    // location when the user invokes the "install" step (the default step when
-    // running `zig build`).
-    //b.installArtifact(lib);
-
     const xstd_lib = b.addStaticLibrary(.{
         .name = "xstd",
         .target = target,
         .optimize = optimize,
     });
-
     xstd_lib.linkLibrary(xstd.artifact("xstd"));
 
     xstd_lib.installLibraryHeaders(xstd.artifact("xstd"));
     const xstd_install_step = b.addInstallArtifact(xstd_lib, .{});
     b.getInstallStep().dependOn(&xstd_install_step.step);
+
+    b.installArtifact(lib);
 
     // Creates a step for unit testing. This only builds the test executable
     // but does not run it.
