@@ -1,6 +1,6 @@
 .{
     .name = "polyglot",
-    .version = "0.0.4",
+    .version = "0.0.8",
     .dependencies = .{
         .xstd = .{
             .url = "https://github.com/arats-io/zig-xstd/archive/refs/tags/v0.0.4.tar.gz",
