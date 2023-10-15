@@ -31,6 +31,9 @@ pub fn build(b: *std.Build) !void {
     // create a module to be used internally.
     _ = b.addModule("polyglot", .{
         .source_file = .{ .path = "src/lib.zig" },
+        .dependencies = &.{
+            .{ .name = "xstd", .module = xstd.module("xstd") },
+        },
     });
     const lib = b.addStaticLibrary(.{
         .name = "polyglot",
