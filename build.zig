@@ -20,13 +20,12 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
 
-    // const xstd_lib = b.addStaticLibrary(.{
-    //     .name = "xstd",
-    //     .target = target,
-    //     .optimize = optimize,
-    // });
-    // xstd_lib.linkLibrary(xstd.artifact("xstd"));
-    // b.installArtifact(xstd_lib);
+    const xstd_lib = b.addStaticLibrary(.{
+        .name = "xstd",
+        .target = target,
+        .optimize = optimize,
+    });
+    b.installArtifact(xstd_lib);
 
     // create a module to be used internally.
     _ = b.addModule("polyglot", .{
