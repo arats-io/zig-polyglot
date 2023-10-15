@@ -25,6 +25,7 @@ pub fn build(b: *std.Build) !void {
         .target = target,
         .optimize = optimize,
     });
+    xstd_lib.linkLibrary(xstd.artifact("xstd"));
     b.installArtifact(xstd_lib);
 
     // create a module to be used internally.
@@ -37,8 +38,8 @@ pub fn build(b: *std.Build) !void {
         .target = target,
         .optimize = optimize,
     });
-    lib.linkLibrary(xstd.artifact("xstd"));
     lib.addModule("xstd", xstd.module("xstd"));
+    lib.linkLibrary(xstd.artifact("xstd"));
 
     b.installArtifact(lib);
 
