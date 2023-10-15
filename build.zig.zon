@@ -1,10 +1,10 @@
 .{
     .name = "polyglot",
-    .version = "0.0.11",
+    .version = "0.1.0",
     .dependencies = .{
         .xstd = .{
-            .url = "https://github.com/arats-io/zig-xstd/archive/refs/tags/v0.0.4.tar.gz",
-            .hash = "12206d69da2f69f31908d925288f3c48cdca33848e0ea3962fd078e7805fc2630292",
+            .url = "https://github.com/arats-io/zig-xstd/archive/refs/tags/v0.1.0.tar.gz",
+            .hash = "1220d870f9a58e70cacfab249f9d25ca31c70ddcb8aee265f4989c06909a3a4b83e3",
         },
     },
     .paths = .{ "README.md", "build.zig", "build.zig.zon", "src" },
