@@ -20,6 +20,14 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
 
+    const xstd_lib = b.addStaticLibrary(.{
+        .name = "xstd",
+        .target = target,
+        .optimize = optimize,
+    });
+    xstd_lib.linkLibrary(xstd.artifact("xstd"));
+    b.installArtifact(xstd_lib);
+
     // create a module to be used internally.
     _ = b.addModule("polyglot", .{
         .source_file = .{ .path = "src/lib.zig" },
@@ -33,14 +41,6 @@ pub fn build(b: *std.Build) !void {
     lib.linkLibrary(xstd.artifact("xstd"));
     lib.addModule("xstd", xstd.module("xstd"));
 
-    const xstd_lib = b.addStaticLibrary(.{
-        .name = "xstd",
-        .target = target,
-        .optimize = optimize,
-    });
-    xstd_lib.linkLibrary(xstd.artifact("xstd"));
-
-    b.installArtifact(xstd_lib);
     b.installArtifact(lib);
 
     // Creates a step for unit testing. This only builds the test executable
